@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "WebSearch",
+      "WebFetch(domain:foodish-api.com)",
+      "WebFetch(domain:pixabay.com)",
+      "Bash(ipconfig getifaddr:*)",
+      "Bash(npm run:*)",
+      "Bash(source ~/.zshrc)",
+      "Read(//opt/homebrew/Cellar/node/25.8.2/bin/**)",
+      "Read(//opt/homebrew/lib/node_modules/npm/bin/**)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
