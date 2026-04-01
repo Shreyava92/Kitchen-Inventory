@@ -7,6 +7,7 @@ export default function MembersPage() {
   const [inviteCode, setInviteCode] = useState('')
   const [members, setMembers] = useState([])
   const [copied, setCopied] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -20,10 +21,18 @@ export default function MembersPage() {
     load()
   }, [household.id])
 
+  const inviteLink = `${window.location.origin}/join/${inviteCode}`
+
   function copyCode() {
     navigator.clipboard.writeText(inviteCode)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(inviteLink)
+    setCopiedLink(true)
+    setTimeout(() => setCopiedLink(false), 2000)
   }
 
   return (
@@ -39,7 +48,16 @@ export default function MembersPage() {
             onClick={copyCode}
             className="text-sm bg-green-600 hover:bg-green-700 text-white rounded-lg px-3 py-1.5 font-medium"
           >
-            {copied ? 'Copied!' : 'Copy'}
+            {copied ? 'Copied!' : 'Copy code'}
+          </button>
+        </div>
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-xs text-gray-400 truncate flex-1">{inviteLink}</span>
+          <button
+            onClick={copyLink}
+            className="text-sm border border-gray-300 hover:border-gray-400 text-gray-700 rounded-lg px-3 py-1.5 font-medium shrink-0"
+          >
+            {copiedLink ? 'Copied!' : 'Copy link'}
           </button>
         </div>
       </div>

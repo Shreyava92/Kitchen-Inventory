@@ -5,9 +5,13 @@ import { DEFAULT_LOCATIONS } from '../lib/constants'
 
 export default function HouseholdSetup() {
   const { user, setHousehold, signOut } = useAuth()
-  const [mode, setMode] = useState('create') // 'create' | 'join'
+  const [mode, setMode] = useState(() => localStorage.getItem('pending_invite_code') ? 'join' : 'create')
   const [name, setName] = useState('')
-  const [inviteCode, setInviteCode] = useState('')
+  const [inviteCode, setInviteCode] = useState(() => {
+    const pending = localStorage.getItem('pending_invite_code')
+    if (pending) { localStorage.removeItem('pending_invite_code'); return pending }
+    return ''
+  })
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 

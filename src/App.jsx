@@ -9,6 +9,7 @@ import ShoppingListPage from './pages/ShoppingListPage'
 import ScanReceiptPage from './pages/ScanReceiptPage'
 import ReceiptsPage from './pages/ReceiptsPage'
 import MembersPage from './pages/MembersPage'
+import JoinPage from './pages/JoinPage'
 import Layout from './components/Layout'
 import { checkExpiryNotifications } from './lib/notifications'
 
@@ -44,7 +45,10 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <Routes>
+        <Route path="/join/:code" element={<JoinPage />} />
+        <Route path="*" element={<AppRoutes />} />
+      </Routes>
     </AuthProvider>
   )
 }
