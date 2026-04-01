@@ -8,6 +8,28 @@ import { runAgent, loadAgentSettings, saveAgentSettings, DEFAULT_SETTINGS, PROVI
 import AgentSettingsModal from '../components/AgentSettingsModal'
 import { autoFill } from '../lib/autoFill'
 
+function parseTotal(text) {
+  if (!text) return null
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean)
+  const patterns = [
+    /grand\s*total[\s:$]*(\d+\.?\d*)/i,
+    /amount\s*due[\s:$]*(\d+\.?\d*)/i,
+    /balance\s*due[\s:$]*(\d+\.?\d*)/i,
+    /total\s*amount[\s:$]*(\d+\.?\d*)/i,
+    /total[\s:$]+(\d+\.?\d*)/i,
+  ]
+  for (const pattern of patterns) {
+    for (const line of lines) {
+      const m = line.match(pattern)
+      if (m) {
+        const val = parseFloat(m[1])
+        if (val > 0 && val < 10000) return val
+      }
+    }
+  }
+  return null
+}
+
 // Normalize OCR-mangled units to valid units
 function normalizeUnit(raw) {
   const s = raw.toLowerCase().replace(/\s/g, '')
@@ -229,11 +251,13 @@ export default function ScanReceiptPage() {
 
     // Save receipt record
     const storeName = rawText.split('\n').map(l => l.trim()).find(l => l.length > 2) ?? null
+    const total_amount = parseTotal(rawText)
     await supabase.from('receipts').insert({
       household_id: household.id,
       store_name: storeName,
       item_count: candidates.length,
       raw_text: rawText,
+      total_amount,
     })
 
     setStep('done')
