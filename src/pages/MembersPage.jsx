@@ -13,7 +13,7 @@ export default function MembersPage() {
     async function load() {
       const [{ data: hh }, { data: mm }] = await Promise.all([
         supabase.from('households').select('invite_code').eq('id', household.id).single(),
-        supabase.from('household_members').select('email, user_id').eq('household_id', household.id),
+        supabase.from('household_members').select('name, email, user_id').eq('household_id', household.id),
       ])
       setInviteCode(hh?.invite_code ?? '')
       setMembers(mm ?? [])
@@ -68,9 +68,9 @@ export default function MembersPage() {
           {members.map(m => (
             <li key={m.user_id} className="text-sm text-gray-700 flex items-center gap-2">
               <span className="w-7 h-7 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-xs font-medium shrink-0">
-                {(m.email?.[0] ?? '?').toUpperCase()}
+                {(m.name?.[0] ?? m.email?.[0] ?? '?').toUpperCase()}
               </span>
-              {m.email ?? 'Unknown'}
+              {m.name ?? m.email ?? 'Unknown'}
             </li>
           ))}
         </ul>

@@ -7,6 +7,7 @@ export default function HouseholdSetup() {
   const { user, setHousehold, signOut } = useAuth()
   const [mode, setMode] = useState(() => localStorage.getItem('pending_invite_code') ? 'join' : 'create')
   const [name, setName] = useState('')
+  const [memberName, setMemberName] = useState('')
   const [inviteCode, setInviteCode] = useState(() => {
     const pending = localStorage.getItem('pending_invite_code')
     if (pending) { localStorage.removeItem('pending_invite_code'); return pending }
@@ -30,7 +31,7 @@ export default function HouseholdSetup() {
 
     if (hErr) { setError(hErr.message); setLoading(false); return }
 
-    await supabase.from('household_members').insert({ household_id: household.id, user_id: user.id, email: user.email })
+    await supabase.from('household_members').insert({ household_id: household.id, user_id: user.id, email: user.email, name: memberName.trim() || null })
 
     // seed default locations
     await supabase.from('locations').insert(
@@ -56,7 +57,7 @@ export default function HouseholdSetup() {
 
     const { error: mErr } = await supabase
       .from('household_members')
-      .insert({ household_id: household.id, user_id: user.id, email: user.email })
+      .insert({ household_id: household.id, user_id: user.id, email: user.email, name: memberName.trim() || null })
 
     if (mErr) { setError(mErr.message); setLoading(false); return }
 
@@ -92,6 +93,17 @@ export default function HouseholdSetup() {
         {mode === 'create' ? (
           <form onSubmit={handleCreate} className="space-y-4">
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Your name</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Shreya"
+                value={memberName}
+                onChange={e => setMemberName(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Household name</label>
               <input
                 type="text"
@@ -112,6 +124,17 @@ export default function HouseholdSetup() {
           </form>
         ) : (
           <form onSubmit={handleJoin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Your name</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Shreya"
+                value={memberName}
+                onChange={e => setMemberName(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Invite code</label>
               <input
