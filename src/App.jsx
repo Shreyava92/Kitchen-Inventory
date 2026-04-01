@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import AuthPage from './pages/AuthPage'
 import HouseholdSetup from './pages/HouseholdSetup'
@@ -8,9 +9,14 @@ import ShoppingListPage from './pages/ShoppingListPage'
 import ScanReceiptPage from './pages/ScanReceiptPage'
 import ReceiptsPage from './pages/ReceiptsPage'
 import Layout from './components/Layout'
+import { checkExpiryNotifications } from './lib/notifications'
 
 function AppRoutes() {
   const { user, household, loading } = useAuth()
+
+  useEffect(() => {
+    if (household) checkExpiryNotifications(household.id)
+  }, [household?.id])
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>
