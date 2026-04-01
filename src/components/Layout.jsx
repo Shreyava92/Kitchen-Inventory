@@ -7,6 +7,7 @@ const navItems = [
   { to: '/scan', label: 'Scan Receipt' },
   { to: '/receipts', label: 'Receipts' },
   { to: '/locations', label: 'Locations' },
+  { to: '/members', label: 'Members' },
 ]
 
 export default function Layout({ children }) {

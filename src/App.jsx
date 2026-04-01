@@ -8,6 +8,7 @@ import LocationsPage from './pages/LocationsPage'
 import ShoppingListPage from './pages/ShoppingListPage'
 import ScanReceiptPage from './pages/ScanReceiptPage'
 import ReceiptsPage from './pages/ReceiptsPage'
+import MembersPage from './pages/MembersPage'
 import Layout from './components/Layout'
 import { checkExpiryNotifications } from './lib/notifications'
 
@@ -33,6 +34,7 @@ function AppRoutes() {
         <Route path="/shopping" element={<ShoppingListPage />} />
         <Route path="/scan" element={<ScanReceiptPage />} />
         <Route path="/receipts" element={<ReceiptsPage />} />
+        <Route path="/members" element={<MembersPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Layout>

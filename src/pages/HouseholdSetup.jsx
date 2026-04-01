@@ -16,15 +16,17 @@ export default function HouseholdSetup() {
     setError(null)
     setLoading(true)
 
+    const invite_code = Math.random().toString(36).substring(2, 8).toUpperCase()
+
     const { data: household, error: hErr } = await supabase
       .from('households')
-      .insert({ name })
+      .insert({ name, invite_code })
       .select()
       .single()
 
     if (hErr) { setError(hErr.message); setLoading(false); return }
 
-    await supabase.from('household_members').insert({ household_id: household.id, user_id: user.id })
+    await supabase.from('household_members').insert({ household_id: household.id, user_id: user.id, email: user.email })
 
     // seed default locations
     await supabase.from('locations').insert(
@@ -50,7 +52,7 @@ export default function HouseholdSetup() {
 
     const { error: mErr } = await supabase
       .from('household_members')
-      .insert({ household_id: household.id, user_id: user.id })
+      .insert({ household_id: household.id, user_id: user.id, email: user.email })
 
     if (mErr) { setError(mErr.message); setLoading(false); return }
 
