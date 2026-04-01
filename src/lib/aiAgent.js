@@ -66,7 +66,7 @@ async function callClaude(apiKey, model, base64, mimeType) {
     },
     body: JSON.stringify({
       model,
-      max_tokens: 4096,
+      max_tokens: 8192,
       messages: [{
         role: 'user',
         content: [
@@ -93,7 +93,7 @@ async function callOpenAI(apiKey, model, base64, mimeType) {
     },
     body: JSON.stringify({
       model,
-      max_tokens: 4096,
+      max_tokens: 8192,
       messages: [{
         role: 'user',
         content: [
@@ -124,7 +124,7 @@ async function callGemini(apiKey, model, base64, mimeType) {
             { text: SYSTEM_PROMPT },
           ],
         }],
-        generationConfig: { maxOutputTokens: 4096 },
+        generationConfig: { maxOutputTokens: 8192 },
       }),
     }
   )
@@ -145,7 +145,7 @@ async function callGroq(apiKey, model, base64, mimeType) {
     },
     body: JSON.stringify({
       model,
-      max_tokens: 4096,
+      max_tokens: 8192,
       messages: [{
         role: 'user',
         content: [

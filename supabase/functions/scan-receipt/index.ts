@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
             { text: SYSTEM_PROMPT },
           ],
         }],
-        generationConfig: { maxOutputTokens: 4096 },
+        generationConfig: { maxOutputTokens: 8192 },
       }),
     })
 
