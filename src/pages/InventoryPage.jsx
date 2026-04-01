@@ -230,7 +230,7 @@ export default function InventoryPage() {
                   ) : (
                     <div className="flex items-start gap-3">
                       <ItemEmoji name={item.name} category={item.category} subcategory={item.subcategory} />
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setEditItem(item)}>
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-sm font-medium text-gray-900">{item.name}</span>
                           {item.subcategory && (
@@ -268,7 +268,6 @@ export default function InventoryPage() {
                           className="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-700 flex items-center justify-center text-base leading-none"
                           title="Add one"
                         >+</button>
-                        <button onClick={() => setEditItem(item)} className="text-xs text-gray-400 hover:text-gray-700">Edit</button>
                         <button onClick={() => handleDelete(item.id)} className="text-xs text-red-400 hover:text-red-600">Delete</button>
                       </div>
                     </div>
